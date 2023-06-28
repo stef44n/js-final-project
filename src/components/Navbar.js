@@ -1,32 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Navbar.css";
 import yt from "../assets/yt-icon.png";
+import Sidebar from "./Sidebar";
 
 export default function Navbar() {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+    const handleMenuClick = () => {
+        setIsSidebarOpen((prevState) => !prevState);
+    };
+
     return (
-        <header>
-            <div>
-                <span class="material-symbols-outlined menu">menu</span>
-                <img src={yt} height={20} alt="icon" />
-                <h1>Youtube</h1>
-            </div>
-            <div className="search-div">
-                <input type="text" placeholder="Search" />
-                <button className="search-button">
-                    <span class="material-symbols-outlined">search</span>
-                </button>
-            </div>
-            <div>
-                <span class="material-symbols-outlined more-vert">
-                    more_vert
-                </span>
-                <button className="sign-in-button">
-                    <span class="material-symbols-outlined account-circle">
-                        account_circle
+        <div>
+            <header>
+                <div>
+                    <span
+                        className="material-symbols-outlined menu"
+                        onClick={handleMenuClick}
+                    >
+                        menu
                     </span>
-                    Sign In
-                </button>
-            </div>
-        </header>
+                    <img src={yt} height={20} alt="icon" />
+                    <h1>Youtube</h1>
+                </div>
+                <div className="search-div-wrapper">
+                    <div className="search-div">
+                        <span className="material-symbols-outlined">
+                            search
+                        </span>
+                        <input type="text" placeholder="Search" />
+                    </div>
+                    <button className="search-button">
+                        <span className="material-symbols-outlined ignore">
+                            search
+                        </span>
+                    </button>
+                </div>
+                <div>
+                    <span className="material-symbols-outlined more-vert">
+                        more_vert
+                    </span>
+                    <button className="sign-in-button">
+                        <span className="material-symbols-outlined account-circle">
+                            account_circle
+                        </span>
+                        Sign In
+                    </button>
+                </div>
+            </header>
+            {isSidebarOpen && <Sidebar />}
+        </div>
     );
 }
