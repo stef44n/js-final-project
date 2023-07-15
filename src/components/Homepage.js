@@ -1,12 +1,57 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Homepage.css";
 import mockData from "../testData/mockDataTest";
+import mockDataAllChannelsOnDisplay from "../testData/mockDataAllChannelsOnDisplay";
 // require(`dotenv`).config();
-import API_KEY from "../testData/apikey";
+// import API_KEY from "../testData/apikey";
+import { formatNumber, calculateTimeDifference } from "./HelperFunctions";
 
 export default function Homepage() {
     // const [apiData, setApiData] = useState({});
     const [apiData, setApiData] = useState(mockData.items);
+
+    const allChannels = mockDataAllChannelsOnDisplay;
+
+    // API 1 - popular vids by region
+    // get channel IDs
+    // map IDs into an array (1)
+    // use array to join IDs into a string, separated with a comma
+    // use the string to search for channels in API 2
+    // API 2 - channels by ID
+    // get channels ID
+    // map IDs into array (2)
+    // use array (1) (with original length and order of videos) to search for the matching ID in array (2) and return its index position
+    // use array(1)[index] to specify ID to find
+    // use the newly found index from array (2) to map out the avatars in correct order
+    const channelIDs = apiData.map((video) => video.snippet.channelId);
+    // const channelIDs = apiData.map((video) => video.snippet.channelTitle);
+    console.log(channelIDs);
+    // console.log(typeof channelIDs);
+
+    const commaSeparatedString = channelIDs.join(",");
+
+    console.log(commaSeparatedString);
+    console.log(
+        mockDataAllChannelsOnDisplay.items[0].brandingSettings.channel.title
+    );
+    const allChannelsIDs = allChannels.items.map((video) => video.id);
+    console.log(allChannelsIDs);
+
+    const [initialArray] = useState(channelIDs);
+    const [secondArray, setSecondArray] = useState(allChannelsIDs);
+    console.log(initialArray);
+    console.log(secondArray);
+
+    const getAvatarForChannelId = (channelId) => {
+        console.log(channelId);
+        const matchedAvatarIndex = secondArray.findIndex(
+            (avatar) => avatar === channelId
+        );
+        console.log(matchedAvatarIndex);
+        // return matchedAvatarIndex ? matchedAvatarIndex.id : "";
+        // return channelId;
+        return matchedAvatarIndex;
+    };
 
     const getData = async () => {
         try {
@@ -28,7 +73,7 @@ export default function Homepage() {
             // const videoReleaseDate = thisVideo.snippet.publishTime;
             // const videoThumbnailURL = thisVideo.snippet.thumbnails.high.url;
             console.log(searchData);
-            console.log(API_KEY);
+            // console.log(API_KEY);
             console.log(process.env);
             // console.log(youTubeId);
             // console.log(channelName);
@@ -52,19 +97,23 @@ export default function Homepage() {
     getData();
     // console.log(getData());
 
-    useEffect(() => {
-        // Make the API call and set the data state
-        // Replace 'apiEndpoint' with your actual API endpoint
-        // fetch("apiEndpoint")
-        //     .then((response) => response.json())
-        //     .then((result) => setData(result))
-        //     .catch((error) => console.error(error));
-    }, []);
+    // useEffect(() => {
+    // Make the API call and set the data state
+    // Replace 'apiEndpoint' with your actual API endpoint
+    // fetch("apiEndpoint")
+    //     .then((response) => response.json())
+    //     .then((result) => setData(result))
+    //     .catch((error) => console.error(error));
+    // }, []);
 
     return (
         <div className="yt-grid">
             {apiData.map((video, index) => (
                 <article key={index}>
+                    {/* {console.log(video.snippet.channelId)} */}
+                    {console.log(
+                        getAvatarForChannelId(video.snippet.channelId)
+                    )}
                     <img
                         className="thumbnail"
                         // src={`${getData()}`}
@@ -74,13 +123,35 @@ export default function Homepage() {
                     <div className="below-tn">
                         <img
                             className="channel-avatar"
-                            src={video.snippet.thumbnails.high.url}
+                            // src={video.snippet.thumbnails.high.url}
+                            src={
+                                // allChannels.items[1].snippet.thumbnails.default
+                                //     .url
+                                allChannels.items[
+                                    getAvatarForChannelId(channelIDs[index])
+                                ]?.snippet.thumbnails.default.url
+                            }
                             alt="channel-avatar"
                         />
                         <div className="video-info">
                             <h2>{video.snippet.title}</h2>
                             <p>{video.snippet.channelTitle}</p>
-                            <p>View count / Release date</p>
+                            {/* {channelIDs[index]} -- */}
+                            {/* {allChannels.items[index].etag} */}
+                            {
+                                // allChannels.items[index]?.snippet.thumbnails
+                                //     .default.url
+                                // allChannelsIDs.findIndex(
+                                //     checkId(channelIDs[index])
+                                // )
+                                // getAvatarForChannelId(channelIDs[index])
+                            }
+                            <p>
+                                {formatNumber(video.statistics.viewCount)} • {}
+                                {calculateTimeDifference(
+                                    video.snippet.publishedAt
+                                )}
+                            </p>
                         </div>
                     </div>
                 </article>
@@ -89,28 +160,3 @@ export default function Homepage() {
         </div>
     );
 }
-
-// {
-/* <div className="yt-grid">
-    {apiData.map((video, index) => (
-        <article key={index}>
-            <img
-                className="thumbnail"
-                // src={`${getData()}`}
-                src={video.snippet.thumbnails.high.url}
-                alt="thumbnail"
-            />
-            <div className="below-tn">
-                <div className="channel-avatar">ava</div>
-                <div className="video-info">
-                    <h2>{video.snippet.title}</h2>
-                    <p>{video.snippet.channelTitle}</p>
-                    <p>View count / Release date</p>
-                    <p>{video.snippet.description}</p>
-                </div>
-            </div>
-        </article>
-    ))}
-    {getData}
-</div>; */
-// }
