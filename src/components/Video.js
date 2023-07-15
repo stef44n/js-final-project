@@ -2,15 +2,29 @@ import React, { useEffect, useState } from "react";
 import "../styles/Video.css";
 import mockData from "../testData/mockDataTest";
 import mockDataCat from "../testData/mockDataCategory";
+import mockDataVidsByCategory from "../testData/mockDataVidsByCategory";
 import mockDataChannel from "../testData/mockDataChannel";
 import mockDataCommentThreads from "../testData/mockDataCommentThreads";
 // require(`dotenv`).config();
 // import API_KEY from "../testData/apikey";
+import {
+    addCommas,
+    formatNumber,
+    calculateTimeDifference,
+    formatDuration,
+} from "./HelperFunctions";
+
+//Quick TEST
+let num = 315;
+formatNumber(num);
 
 export default function Video() {
     const [apiData, setApiData] = useState(mockData.items[3]);
     const [apiCommentsData, setApiCommentsData] = useState(
         mockDataCommentThreads.items
+    );
+    const [apiVidsByCatData, setApiVidsByCatData] = useState(
+        mockDataVidsByCategory.items
     );
 
     // const videoCategoryId = mockDataCat.items[0].id;
@@ -31,13 +45,14 @@ export default function Video() {
                         height={apiData.snippet.thumbnails.standard.height}
                         // src={`https://www.youtube.com/embed/WqgjIIbpy34`}
                         src={`https://www.youtube.com/embed/${apiData.id}`}
-                        frameborder="20"
+                        // ?autoplay=1&mute=1&controls=0
+                        // frameBorder="20"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen="true"
+                        allowFullScreen={true}
                         title="video"
                     ></iframe>
                 </div>
-                <h2 className="title">Video Title {apiData.snippet.title}</h2>
+                <h2 className="title">{apiData.snippet.title}</h2>
                 <div className="video-info">
                     {/* <div className="channel-and-video-buttons"> */}
                     <div className="channel">
@@ -48,8 +63,8 @@ export default function Video() {
                             alt={"channel avatar"}
                         ></img>
                         <div className="channel-info">
-                            <h3>Channel Name {apiData.snippet.channelTitle}</h3>
-                            <p>Subscriber count-- {channelSubs} </p>
+                            <h3> {apiData.snippet.channelTitle}</h3>
+                            <p>{formatNumber(channelSubs)} subscribers</p>
                         </div>
                         <button className="subscribe">Subscribe</button>
                     </div>
@@ -59,7 +74,8 @@ export default function Video() {
                                 <span className="material-symbols-rounded">
                                     thumb_up
                                 </span>
-                                number {apiData.statistics.likeCount}
+
+                                {formatNumber(apiData.statistics.likeCount)}
                             </button>
                             <button className="dislike">
                                 <span className="material-symbols-rounded">
@@ -89,8 +105,14 @@ export default function Video() {
                 </div>
                 <div className="video-description">
                     <div className="stats">
-                        <p>View count {apiData.statistics.viewCount} </p>
-                        <p>Release date {apiData.snippet.publishedAt}</p>
+                        <p>
+                            {formatNumber(apiData.statistics.viewCount)} views{" "}
+                        </p>
+                        <p>
+                            {calculateTimeDifference(
+                                apiData.snippet.publishedAt
+                            )}
+                        </p>
                     </div>
                     <p>
                         {videoCategory}
@@ -99,10 +121,14 @@ export default function Video() {
                     </p>
                 </div>
                 <p className="comment-count">
-                    No of comments {apiData.statistics.commentCount}
+                    {addCommas(apiData.statistics.commentCount)} Comments
                 </p>
                 <div className="add-comment">
-                    <div className="avatar"></div>
+                    <img
+                        className="avatar"
+                        alt="avatar"
+                        src="https://yt3.ggpht.com/a/default-user=s88-c-k-c0x00ffffff-no-rj"
+                    ></img>
                     <input
                         type="text"
                         placeholder="Add a comment..."
@@ -136,22 +162,20 @@ export default function Video() {
                                                 .snippet.authorChannelUrl
                                         }
                                     >
-                                        @Name{" "}
+                                        @
                                         {
                                             comment.snippet.topLevelComment
                                                 .snippet.authorDisplayName
                                         }
                                     </a>
                                     <p>
-                                        Time{" "}
-                                        {
+                                        {calculateTimeDifference(
                                             comment.snippet.topLevelComment
                                                 .snippet.publishedAt
-                                        }{" "}
+                                        )}{" "}
                                     </p>
                                 </div>
                                 <div className="comment-body">
-                                    Comment body{" "}
                                     {
                                         comment.snippet.topLevelComment.snippet
                                             .textOriginal
@@ -164,11 +188,10 @@ export default function Video() {
                                         </span>
                                     </button>
                                     <p>
-                                        Number of likes{" "}
-                                        {
+                                        {formatNumber(
                                             comment.snippet.topLevelComment
                                                 .snippet.likeCount
-                                        }{" "}
+                                        )}{" "}
                                     </p>
                                     <button>
                                         <span className="material-symbols-rounded">
@@ -183,17 +206,35 @@ export default function Video() {
                 </div>
             </div>
             <div className="suggestions">
-                <div className="suggestion">
-                    <div className="suggestion-thumbnail"></div>
-                    <div className="suggestion-info">
-                        <h3>Title</h3>
-                        <p>Channel name</p>
-                        <div className="suggestion-data">
-                            <p>Views</p>
-                            <p>Time</p>
+                {apiVidsByCatData.map((video, index) => (
+                    <div className="suggestion" key={index}>
+                        <div className="suggestion-thumbnail">
+                            <img
+                                className="suggestion-thumbnail"
+                                alt="thumbnail"
+                                src={video.snippet.thumbnails.default.url}
+                            ></img>
+                            <div className="duration">
+                                {formatDuration(video.contentDetails.duration)}
+                            </div>
+                        </div>
+                        <div className="suggestion-info">
+                            <h3>{video.snippet.title}</h3>
+                            <p>{video.snippet.channelTitle} </p>
+                            <div className="suggestion-data">
+                                <p>
+                                    {formatNumber(video.statistics.viewCount)}{" "}
+                                    views •
+                                </p>
+                                <p>
+                                    {calculateTimeDifference(
+                                        video.snippet.publishedAt
+                                    )}{" "}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                ))}
             </div>
         </div>
     );
