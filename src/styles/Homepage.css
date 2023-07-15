@@ -24,7 +24,7 @@ article {
     height: 200px;
     width: 350px;
     /* border: solid red; */
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .below-tn {
@@ -55,4 +55,20 @@ article {
 
 .video-info > p {
     color: gray;
+}
+
+.video-thumbnail {
+    position: relative;
+}
+
+.duration {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    padding: 3px;
+    border-radius: 3px;
+    font-size: small;
+    width: min-content;
 }
