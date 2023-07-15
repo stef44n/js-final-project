@@ -4,7 +4,11 @@ import mockData from "../testData/mockDataTest";
 import mockDataAllChannelsOnDisplay from "../testData/mockDataAllChannelsOnDisplay";
 // require(`dotenv`).config();
 // import API_KEY from "../testData/apikey";
-import { formatNumber, calculateTimeDifference } from "./HelperFunctions";
+import {
+    formatNumber,
+    calculateTimeDifference,
+    formatDuration,
+} from "./HelperFunctions";
 
 export default function Homepage() {
     // const [apiData, setApiData] = useState({});
@@ -114,12 +118,17 @@ export default function Homepage() {
                     {console.log(
                         getAvatarForChannelId(video.snippet.channelId)
                     )}
-                    <img
-                        className="thumbnail"
-                        // src={`${getData()}`}
-                        src={video.snippet.thumbnails.high.url}
-                        alt="thumbnail"
-                    />
+                    <div className="video-thumbnail">
+                        <img
+                            className="thumbnail"
+                            // src={`${getData()}`}
+                            src={video.snippet.thumbnails.high.url}
+                            alt="thumbnail"
+                        />
+                        <div className="duration">
+                            {formatDuration(video.contentDetails.duration)}
+                        </div>
+                    </div>
                     <div className="below-tn">
                         <img
                             className="channel-avatar"
