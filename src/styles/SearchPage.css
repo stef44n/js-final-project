@@ -23,6 +23,22 @@ article {
     border-radius: 15px;
 }
 
+.video-thumbnail {
+    position: relative;
+}
+
+.duration {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    padding: 3px;
+    border-radius: 3px;
+    font-size: small;
+    width: min-content;
+}
+
 .below-tn {
     display: flex;
     align-items: start;
