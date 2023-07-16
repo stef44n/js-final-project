@@ -1,4 +1,4 @@
-.video-background {
+.vid-video-background {
     /* background-color: aqua; */
     position: absolute;
     top: 70px;
@@ -11,7 +11,7 @@
     gap: 20px;
 }
 
-.current-video {
+.vid-current-video {
     /* border: red solid; */
     display: flex;
     flex-direction: column;
@@ -19,29 +19,29 @@
     height: 100%;
 }
 
-.video-player {
+.vid-video-player {
     /* border: yellow solid; */
     /* height: 300px; */
     width: 100%;
 }
 
-.title {
+.vid-title {
     display: flex;
     align-self: flex-start;
     width: 100%;
 }
 
-.video-info {
+.vid-video-info {
     width: 100%;
     justify-content: space-between;
     align-items: center;
 }
 
-.channel {
+.vid-channel {
     gap: 10px;
 }
 
-.avatar {
+.vid-avatar {
     /* border: solid pink; */
     background-color: red;
     height: 40px;
@@ -51,20 +51,20 @@
     flex-shrink: 0;
 }
 
-.avatar-link {
+.vid-avatar-link {
     align-self: flex-start;
 }
 
-.channel-info {
+.vid-channel-info {
     flex-direction: column;
     align-items: flex-start;
 }
 
-.channel-info > * {
+.vid-channel-info > * {
     margin: 0;
 }
 
-.subscribe {
+.vid-subscribe {
     background-color: black;
     border: none;
     color: white;
@@ -72,33 +72,33 @@
     padding: 8px;
 }
 
-.video-buttons {
+.vid-video-buttons {
     gap: 10px;
     height: 100%;
 }
 
-.video-buttons > button,
-.rate-video > button {
+.vid-video-buttons > button,
+.vid-rate-video > button {
     display: flex;
     align-items: center;
     padding: 8px;
 }
 
-.video-buttons > * {
+.vid-video-buttons > * {
     border-radius: 40px;
     background-color: #f2f2f2;
     border: none;
 }
-.rate-video > * {
+.vid-rate-video > * {
     background-color: transparent;
     border: none;
 }
 
-.rate-video {
+.vid-rate-video {
     height: 100%;
 }
 
-.suggestions {
+.vid-suggestions {
     /* background-color: lightskyblue; */
     height: 100%;
     align-items: flex-start;
@@ -109,7 +109,7 @@ button {
     align-self: stretch;
 }
 
-.video-description {
+.vid-video-description {
     /* border: red solid; */
     width: 100%;
     display: flex;
@@ -121,12 +121,12 @@ button {
     padding: 8px;
 }
 
-.comment-count,
-.add-comment {
+.vid-comment-count,
+.vid-add-comment {
     width: 100%;
 }
 
-.comment-input {
+.vid-comment-input {
     border: none;
     border-bottom: solid #ccc 1px;
     border-radius: 0;
@@ -136,37 +136,37 @@ button {
     margin-left: 15px;
 }
 
-.comments
-/* .comment, */
-/* .comment-info  */ {
+.vid-comments
+/* .vid-comment, */
+/* .vid-comment-info  */ {
     width: 100%;
     flex-direction: column;
 }
 
-.comment {
+.vid-comment {
     gap: 15px;
     margin-top: 15px;
     width: inherit;
 }
 
-.comment-info {
+.vid-comment-info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: fit-content;
 }
 
-.comment-data > * {
+.vid-comment-data > * {
     font-size: small;
     margin: 0;
     margin-right: 5px;
 }
 
-.comment-body {
+.vid-comment-body {
     margin: 10px 0;
 }
 
-.comment-buttons > * {
+.vid-comment-buttons > * {
     background-color: transparent;
     padding: 0;
     margin: 0;
@@ -174,12 +174,12 @@ button {
     font-size: small;
 }
 
-.suggestion {
+.vid-suggestion {
     display: flex;
     gap: 10px;
 }
 
-.suggestion-thumbnail {
+.vid-suggestion-thumbnail {
     /* background-color: aqua; */
     height: 100px;
     width: 150px;
@@ -188,18 +188,18 @@ button {
     flex-shrink: 0;
 }
 
-.suggestion-info {
+.vid-suggestion-info {
     flex-direction: column;
     align-self: flex-start;
 }
 
-.suggestion-info > * {
+.vid-suggestion-info > * {
     margin: 0;
     align-self: flex-start;
     font-size: small;
 }
 
-.duration {
+.vid-duration {
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     position: relative;

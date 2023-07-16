@@ -1,4 +1,4 @@
-.yt-grid {
+.home-yt-grid {
     /* border: solid red; */
     background-color: aliceblue;
     position: absolute;
@@ -12,7 +12,7 @@
     gap: 15px;
 }
 
-article {
+.home-article {
     /* border: solid blue; */
     width: min-content;
     display: flex;
@@ -20,27 +20,27 @@ article {
     align-self: self-start;
 }
 
-.thumbnail {
+.home-thumbnail {
     height: 200px;
     width: 350px;
     /* border: solid red; */
     border-radius: 10px;
 }
 
-.below-tn {
+.home-below-tn {
     display: flex;
     align-items: start;
     padding-top: 10px;
 }
 
-.channel-avatar {
+.home-channel-avatar {
     border: solid green;
     height: 50px;
     width: 50px;
     border-radius: 35px;
 }
 
-.video-info {
+.home-video-info {
     flex-direction: column;
     align-items: start;
     font-family: "Roboto", "Arial", sans-serif;
@@ -48,20 +48,20 @@ article {
     gap: 3px;
 }
 
-.video-info > * {
+.home-video-info > * {
     margin: 0;
     font-size: small;
 }
 
-.video-info > p {
+.home-video-info > p {
     color: gray;
 }
 
-.video-thumbnail {
+.home-video-thumbnail {
     position: relative;
 }
 
-.duration {
+.home-duration {
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     position: absolute;
