@@ -4,7 +4,11 @@ import mockData from "../testData/mockData";
 import mockDataSearchChannels from "../testData/mockDataSearchChannels";
 import mockDataSearchVideosByVidId from "../testData/mockDataSearchVideosByVidId";
 // import API_KEY from "../testData/apikey";
-import { formatNumber, calculateTimeDifference } from "./HelperFunctions";
+import {
+    formatNumber,
+    calculateTimeDifference,
+    formatDuration,
+} from "./HelperFunctions";
 
 // SEARCH PAGE
 export default function Homepage() {
@@ -103,11 +107,20 @@ export default function Homepage() {
         <div className="yt-grid">
             {apiData.map((video, index) => (
                 <article key={index}>
-                    <img
-                        className="thumbnail"
-                        src={video.snippet.thumbnails.high.url}
-                        alt="thumbnail"
-                    />
+                    <div className="video-thumbnail">
+                        <img
+                            className="thumbnail"
+                            src={video.snippet.thumbnails.high.url}
+                            alt="thumbnail"
+                        />
+                        <div className="duration">
+                            {formatDuration(
+                                allVideos.items[
+                                    getInfoForVideoId(videoIDs[index])
+                                ]?.contentDetails.duration
+                            )}
+                        </div>
+                    </div>
                     <div className="video-info">
                         <div className="video-info">
                             <h2>{video.snippet.title}</h2>
@@ -123,18 +136,26 @@ export default function Homepage() {
                                 )}{" "}
                             </p>
                             <div>
-                                <img
-                                    className="channel-avatar"
-                                    alt="avatar"
-                                    src={
-                                        allChannels.items[
-                                            getAvatarForChannelId(
-                                                channelIDs[index]
-                                            )
-                                        ]?.snippet.thumbnails.default.url
-                                    }
-                                ></img>
-                                <p>{video.snippet.channelTitle}</p>
+                                <a
+                                    href={`http://www.youtube.com/channel/${video.snippet.channelId}`}
+                                >
+                                    <img
+                                        className="channel-avatar"
+                                        alt="avatar"
+                                        src={
+                                            allChannels.items[
+                                                getAvatarForChannelId(
+                                                    channelIDs[index]
+                                                )
+                                            ]?.snippet.thumbnails.default.url
+                                        }
+                                    ></img>
+                                </a>
+                                <a
+                                    href={`http://www.youtube.com/channel/${video.snippet.channelId}`}
+                                >
+                                    {video.snippet.channelTitle}
+                                </a>
                             </div>
                             <p className="video-desc">
                                 {video.snippet.description}
