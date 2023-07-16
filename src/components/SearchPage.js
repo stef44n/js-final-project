@@ -104,16 +104,16 @@ export default function Homepage() {
     }, []);
 
     return (
-        <div className="yt-grid">
+        <div className="search-yt-grid">
             {apiData.map((video, index) => (
-                <article key={index}>
-                    <div className="video-thumbnail">
+                <article className="search-article" key={index}>
+                    <div className="search-video-thumbnail">
                         <img
-                            className="thumbnail"
+                            className="search-thumbnail"
                             src={video.snippet.thumbnails.high.url}
                             alt="thumbnail"
                         />
-                        <div className="duration">
+                        <div className="search-duration">
                             {formatDuration(
                                 allVideos.items[
                                     getInfoForVideoId(videoIDs[index])
@@ -121,8 +121,8 @@ export default function Homepage() {
                             )}
                         </div>
                     </div>
-                    <div className="video-info">
-                        <div className="video-info">
+                    <div className="search-video-info">
+                        <div className="search-video-info">
                             <h2>{video.snippet.title}</h2>
                             <p>
                                 {formatNumber(
@@ -140,7 +140,7 @@ export default function Homepage() {
                                     href={`http://www.youtube.com/channel/${video.snippet.channelId}`}
                                 >
                                     <img
-                                        className="channel-avatar"
+                                        className="search-channel-avatar"
                                         alt="avatar"
                                         src={
                                             allChannels.items[
@@ -157,7 +157,7 @@ export default function Homepage() {
                                     {video.snippet.channelTitle}
                                 </a>
                             </div>
-                            <p className="video-desc">
+                            <p className="search-video-desc">
                                 {video.snippet.description}
                             </p>
                         </div>

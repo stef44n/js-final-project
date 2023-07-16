@@ -111,27 +111,27 @@ export default function Homepage() {
     // }, []);
 
     return (
-        <div className="yt-grid">
+        <div className="home-yt-grid">
             {apiData.map((video, index) => (
-                <article key={index}>
+                <article className="home-article" key={index}>
                     {/* {console.log(video.snippet.channelId)} */}
                     {console.log(
                         getAvatarForChannelId(video.snippet.channelId)
                     )}
-                    <div className="video-thumbnail">
+                    <div className="home-video-thumbnail">
                         <img
-                            className="thumbnail"
+                            className="home-thumbnail"
                             // src={`${getData()}`}
                             src={video.snippet.thumbnails.high.url}
                             alt="thumbnail"
                         />
-                        <div className="duration">
+                        <div className="home-duration">
                             {formatDuration(video.contentDetails.duration)}
                         </div>
                     </div>
-                    <div className="below-tn">
+                    <div className="home-below-tn">
                         <img
-                            className="channel-avatar"
+                            className="home-channel-avatar"
                             // src={video.snippet.thumbnails.high.url}
                             src={
                                 // allChannels.items[1].snippet.thumbnails.default
@@ -142,7 +142,7 @@ export default function Homepage() {
                             }
                             alt="channel-avatar"
                         />
-                        <div className="video-info">
+                        <div className="home-video-info">
                             <h2>{video.snippet.title}</h2>
                             <p>{video.snippet.channelTitle}</p>
                             {/* {channelIDs[index]} -- */}

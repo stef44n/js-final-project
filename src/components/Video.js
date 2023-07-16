@@ -34,9 +34,9 @@ export default function Video() {
         mockDataChannel.items[0].snippet.thumbnails.default.url;
 
     return (
-        <div className="video-background">
-            <div className="current-video">
-                <div className="video-player">
+        <div className="vid-video-background">
+            <div className="vid-current-video">
+                <div className="vid-video-player">
                     {/* {apiData[3].player.embedHtml} */}
                     <iframe
                         width="100%"
@@ -52,50 +52,50 @@ export default function Video() {
                         title="video"
                     ></iframe>
                 </div>
-                <h2 className="title">{apiData.snippet.title}</h2>
-                <div className="video-info">
-                    {/* <div className="channel-and-video-buttons"> */}
-                    <div className="channel">
-                        {/* <div className="avatar"></div> */}
+                <h2 className="vid-title">{apiData.snippet.title}</h2>
+                <div className="vid-video-info">
+                    {/* <div className="vid-channel-and-video-buttons"> */}
+                    <div className="vid-channel">
+                        {/* <div className="vid-avatar"></div> */}
                         <img
-                            className="avatar"
+                            className="vid-avatar"
                             src={channelImageSrc}
                             alt={"channel avatar"}
                         ></img>
-                        <div className="channel-info">
+                        <div className="vid-channel-info">
                             <h3> {apiData.snippet.channelTitle}</h3>
                             <p>{formatNumber(channelSubs)} subscribers</p>
                         </div>
-                        <button className="subscribe">Subscribe</button>
+                        <button className="vid-subscribe">Subscribe</button>
                     </div>
-                    <div className="video-buttons">
-                        <div className="rate-video">
-                            <button className="like">
+                    <div className="vid-video-buttons">
+                        <div className="vid-rate-video">
+                            <button className="vid-like">
                                 <span className="material-symbols-rounded">
                                     thumb_up
                                 </span>
 
                                 {formatNumber(apiData.statistics.likeCount)}
                             </button>
-                            <button className="dislike">
+                            <button className="vid-dislike">
                                 <span className="material-symbols-rounded">
                                     thumb_down
                                 </span>
                             </button>
                         </div>
-                        <button className="share">
+                        <button className="vid-share">
                             <span className="material-symbols-outlined">
                                 share
                             </span>
                             Share
                         </button>
-                        <button className="save">
+                        <button className="vid-save">
                             <span className="material-symbols-outlined">
                                 playlist_add
                             </span>
                             Save
                         </button>
-                        <button className="more">
+                        <button className="vid-more">
                             <span className="material-symbols-outlined">
                                 more_horiz
                             </span>
@@ -103,8 +103,8 @@ export default function Video() {
                     </div>
                     {/* </div> */}
                 </div>
-                <div className="video-description">
-                    <div className="stats">
+                <div className="vid-video-description">
+                    <div className="vid-stats">
                         <p>
                             {formatNumber(apiData.statistics.viewCount)} views{" "}
                         </p>
@@ -120,33 +120,33 @@ export default function Video() {
                         {/* {apiData.snippet.description} */}
                     </p>
                 </div>
-                <p className="comment-count">
+                <p className="vid-comment-count">
                     {addCommas(apiData.statistics.commentCount)} Comments
                 </p>
-                <div className="add-comment">
+                <div className="vid-add-comment">
                     <img
-                        className="avatar"
+                        className="vid-avatar"
                         alt="avatar"
                         src="https://yt3.ggpht.com/a/default-user=s88-c-k-c0x00ffffff-no-rj"
                     ></img>
                     <input
                         type="text"
                         placeholder="Add a comment..."
-                        className="comment-input"
+                        className="vid-comment-input"
                     ></input>
                 </div>
-                <div className="comments">
+                <div className="vid-comments">
                     {apiCommentsData.map((comment, index) => (
-                        <div className="comment" key={index}>
+                        <div className="vid-comment" key={index}>
                             <a
-                                className="avatar-link"
+                                className="vid-avatar-link"
                                 href={
                                     comment.snippet.topLevelComment.snippet
                                         .authorChannelUrl
                                 }
                             >
                                 <img
-                                    className="avatar"
+                                    className="vid-avatar"
                                     alt="avatar"
                                     src={
                                         comment.snippet.topLevelComment.snippet
@@ -154,8 +154,8 @@ export default function Video() {
                                     }
                                 ></img>
                             </a>
-                            <div className="comment-info">
-                                <div className="comment-data">
+                            <div className="vid-comment-info">
+                                <div className="vid-comment-data">
                                     <a
                                         href={
                                             comment.snippet.topLevelComment
@@ -175,13 +175,13 @@ export default function Video() {
                                         )}{" "}
                                     </p>
                                 </div>
-                                <div className="comment-body">
+                                <div className="vid-comment-body">
                                     {
                                         comment.snippet.topLevelComment.snippet
                                             .textOriginal
                                     }
                                 </div>
-                                <div className="comment-buttons">
+                                <div className="vid-comment-buttons">
                                     <button>
                                         <span className="material-symbols-rounded">
                                             thumb_up
@@ -205,23 +205,23 @@ export default function Video() {
                     ))}
                 </div>
             </div>
-            <div className="suggestions">
+            <div className="vid-suggestions">
                 {apiVidsByCatData.map((video, index) => (
-                    <div className="suggestion" key={index}>
-                        <div className="suggestion-thumbnail">
+                    <div className="vid-suggestion" key={index}>
+                        <div className="vid-suggestion-thumbnail">
                             <img
-                                className="suggestion-thumbnail"
+                                className="vid-suggestion-thumbnail"
                                 alt="thumbnail"
                                 src={video.snippet.thumbnails.default.url}
                             ></img>
-                            <div className="duration">
+                            <div className="vid-duration">
                                 {formatDuration(video.contentDetails.duration)}
                             </div>
                         </div>
-                        <div className="suggestion-info">
+                        <div className="vid-suggestion-info">
                             <h3>{video.snippet.title}</h3>
                             <p>{video.snippet.channelTitle} </p>
-                            <div className="suggestion-data">
+                            <div className="vid-suggestion-data">
                                 <p>
                                     {formatNumber(video.statistics.viewCount)}{" "}
                                     views •
