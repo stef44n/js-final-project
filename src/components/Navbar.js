@@ -3,11 +3,16 @@ import "../styles/Navbar.css";
 import yt from "../assets/yt-icon.png";
 import Sidebar from "./Sidebar";
 
-export default function Navbar() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+export default function Navbar({ onIconClick }) {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const handleMenuClick = () => {
         setIsSidebarOpen((prevState) => !prevState);
+    };
+
+    const handleIconClick = () => {
+        const data = "home";
+        onIconClick(data);
     };
 
     return (
@@ -20,7 +25,12 @@ export default function Navbar() {
                     >
                         menu
                     </span>
-                    <img src={yt} height={20} alt="icon" />
+                    <img
+                        src={yt}
+                        height={20}
+                        alt="icon"
+                        onClick={handleIconClick}
+                    />
                     <h1>Youtube</h1>
                 </div>
                 <div className="search-div-wrapper">
