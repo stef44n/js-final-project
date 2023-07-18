@@ -34,7 +34,7 @@ export default function Sidebar() {
                     <p>Home</p>
                 </div>
                 <div className="sidebar-pair">
-                    <span className="material-symbols-outlined">history</span>
+                    <span className="material-symbols-outlined">S</span>
                     <p>Shorts</p>
                 </div>
                 <div className="sidebar-pair">
@@ -59,7 +59,7 @@ export default function Sidebar() {
             </section>
 
             <section>
-                Explore
+                <p>Explore</p>
                 <div className="sidebar-pair">
                     <span className="material-symbols-outlined">
                         local_fire_department
@@ -130,6 +130,26 @@ export default function Sidebar() {
                     <span className="material-symbols-outlined">feedback</span>
                     <p>Send feedback</p>
                 </div>
+            </section>
+
+            <section className="last-section">
+                <div className="menu-links">
+                    <a href="/">About</a>
+                    <a href="/">Press</a>
+                    <a href="/">Copyright</a>
+                    <a href="/">Contact us</a>
+                    <a href="/">Creator</a>
+                    <a href="/">Advertise</a>
+                    <a href="/">Developers</a>
+                </div>
+                <div className="menu-links">
+                    <a href="/">Terms</a>
+                    <a href="/">Privacy</a>
+                    <a href="/">Policy & Safety</a>
+                    <a href="/">How YouTube works</a>
+                    <a href="/">Test new features</a>
+                </div>
+                <p>© 2023 Stef44n</p>
             </section>
         </div>
     );
