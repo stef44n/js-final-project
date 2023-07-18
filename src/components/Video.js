@@ -14,11 +14,7 @@ import {
     formatDuration,
 } from "./HelperFunctions";
 
-//Quick TEST
-let num = 315;
-formatNumber(num);
-
-export default function Video() {
+export default function Video({ videoData }) {
     const [apiData, setApiData] = useState(mockData.items[3]);
     const [apiCommentsData, setApiCommentsData] = useState(
         mockDataCommentThreads.items
@@ -33,6 +29,9 @@ export default function Video() {
     const channelImageSrc =
         mockDataChannel.items[0].snippet.thumbnails.default.url;
 
+    const vidId = videoData.videoId;
+    console.log(`vidId = ${vidId}`);
+
     return (
         <div className="vid-video-background">
             <div className="vid-current-video">
@@ -44,10 +43,12 @@ export default function Video() {
                         // height="500"
                         height={apiData.snippet.thumbnails.standard.height}
                         // src={`https://www.youtube.com/embed/WqgjIIbpy34`}
-                        src={`https://www.youtube.com/embed/${apiData.id}`}
+                        // src={`https://www.youtube.com/embed/${apiData.id}
+                        src={`https://www.youtube.com/embed/${vidId}
+                        `}
                         // ?autoplay=1&mute=1&controls=0
                         // frameBorder="20"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen={true}
                         title="video"
                     ></iframe>
