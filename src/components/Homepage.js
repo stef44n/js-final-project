@@ -10,7 +10,7 @@ import {
     formatDuration,
 } from "./HelperFunctions";
 
-export default function Homepage() {
+export default function Homepage({ onHomepageClick }) {
     // const [apiData, setApiData] = useState({});
     const [apiData, setApiData] = useState(mockData.items);
 
@@ -99,6 +99,18 @@ export default function Homepage() {
         }
     };
     getData();
+
+    // const handleClick = (videoId) => {
+    //     console.log(videoId);
+    //     const data = videoId;
+    //     onHomepageClick(data);
+    // };
+
+    const handleClick = (id) => {
+        // const data = "video";
+        const data = { page: "video", videoId: id };
+        onHomepageClick(data);
+    };
     // console.log(getData());
 
     // useEffect(() => {
@@ -113,7 +125,12 @@ export default function Homepage() {
     return (
         <div className="home-yt-grid">
             {apiData.map((video, index) => (
-                <article className="home-article" key={index}>
+                <article
+                    className="home-article"
+                    key={index}
+                    onClick={() => handleClick(video.id)}
+                    // onClick={handleClick}
+                >
                     {/* {console.log(video.snippet.channelId)} */}
                     {console.log(
                         getAvatarForChannelId(video.snippet.channelId)
