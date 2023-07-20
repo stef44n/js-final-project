@@ -98,3 +98,33 @@ export function formatDuration(duration) {
 
     return formattedDuration;
 }
+
+export function formatDescription(inputString) {
+    // Handle single asterisks on different lines (separated by \n or <br/>)
+    let boldText = inputString.replace(
+        /(?:\n|<br\/>)(\*[^<\n*]+\*)/g,
+        (match) => {
+            return match.replace(/\*/g, "");
+        }
+    );
+
+    // Replace single asterisks (*) with <strong> tags only if they are on the same line and not part of a pair
+    boldText = boldText.replace(
+        /(?<!\*)\*{1}(?!\*)([^*\n]+?)\*{1}(?!\*)/g,
+        "<strong>$1</strong>"
+    );
+
+    // Replace links starting with 'http' and stopping at space or <br/> with <a> tags
+    boldText = boldText.replace(
+        /(http[s]?:\/\/[^\s<]+)/g,
+        '<a href="$1">$1</a>'
+    );
+
+    // Replace \n with <br/>
+    boldText = boldText.replace(/\n/g, "<br/>");
+
+    // Wrap the boldText in <p> tags
+    const finalHtml = `<p>${boldText}</p>`;
+
+    return finalHtml;
+}
