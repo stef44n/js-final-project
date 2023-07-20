@@ -6,42 +6,31 @@ export function addCommas(number) {
 export function formatNumber(number) {
     const formattedNumberK = number / 1000;
     if (formattedNumberK < 1) {
-        // console.log("Smaller than 1K");
-        // console.log(`RETURN: ${number}`);
         return number;
     }
     const formattedNumberM = number / 1000000;
     if (formattedNumberM < 1 && number < 10000) {
-        // console.log("Smaller than 1M");
-        // console.log(`RETURN: ${Math.round((number / 1000) * 10) / 10}K`);
         let shortNumber = `${Math.round((number / 1000) * 10) / 10}K`;
         return shortNumber;
     }
     if (formattedNumberM < 1) {
-        // console.log(`RETURN: ${Math.round(number / 1000)}K`);
         let shortNumber = `${Math.round(number / 1000)}K`;
         return shortNumber;
     }
 
     const formattedNumberB = number / 1000000000;
     if (formattedNumberB < 1 && number < 10000000) {
-        // console.log("Smaller than 1B");
-        // console.log(`RETURN: ${Math.round((number / 1000000) * 10) / 10}M`);
         let shortNumber = `${Math.round((number / 1000000) * 10) / 10}M`;
         return shortNumber;
     }
     if (formattedNumberB < 1) {
-        // console.log(`RETURN: ${Math.round(number / 1000000)}M`);
         let shortNumber = `${Math.round(number / 1000000)}M`;
         return shortNumber;
     }
     if (formattedNumberB > 1 && number < 10000000000) {
-        // console.log("Larger than 1B");
-        // console.log(`RETURN: ${Math.round((number / 1000000000) * 10) / 10}B`);
         let shortNumber = `${Math.round((number / 1000000000) * 10) / 10}B`;
         return shortNumber;
     } else {
-        // console.log(`RETURN: ${Math.round(number / 1000000000)}B`);
         let shortNumber = `${Math.round(number / 1000000000)}B`;
         return shortNumber;
     }
@@ -127,4 +116,28 @@ export function formatDescription(inputString) {
     const finalHtml = `<p>${boldText}</p>`;
 
     return finalHtml;
+}
+
+export function formatDate(inputDate) {
+    const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+
+    const date = new Date(inputDate);
+    const day = date.getUTCDate();
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+
+    return `${day} ${month} ${year}`;
 }
