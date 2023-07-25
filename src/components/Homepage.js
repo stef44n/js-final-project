@@ -10,7 +10,7 @@ import {
     formatDuration,
 } from "./HelperFunctions";
 
-export default function Homepage({ onHomepageClick }) {
+export default function Homepage({ onHomepageClick, isSidebarFull }) {
     // const [apiData, setApiData] = useState({});
     const [apiData, setApiData] = useState(mockData.items);
 
@@ -29,29 +29,29 @@ export default function Homepage({ onHomepageClick }) {
     // use the newly found index from array (2) to map out the avatars in correct order
     const channelIDs = apiData.map((video) => video.snippet.channelId);
     // const channelIDs = apiData.map((video) => video.snippet.channelTitle);
-    console.log(channelIDs);
+    // console.log(channelIDs);
     // console.log(typeof channelIDs);
 
     const commaSeparatedString = channelIDs.join(",");
 
-    console.log(commaSeparatedString);
-    console.log(
-        mockDataAllChannelsOnDisplay.items[0].brandingSettings.channel.title
-    );
+    // console.log(commaSeparatedString);
+    // console.log(
+    //     mockDataAllChannelsOnDisplay.items[0].brandingSettings.channel.title
+    // );
     const allChannelsIDs = allChannels.items.map((video) => video.id);
-    console.log(allChannelsIDs);
+    // console.log(allChannelsIDs);
 
     const [initialArray] = useState(channelIDs);
     const [secondArray, setSecondArray] = useState(allChannelsIDs);
-    console.log(initialArray);
-    console.log(secondArray);
+    // console.log(initialArray);
+    // console.log(secondArray);
 
     const getAvatarForChannelId = (channelId) => {
-        console.log(channelId);
+        // console.log(channelId);
         const matchedAvatarIndex = secondArray.findIndex(
             (avatar) => avatar === channelId
         );
-        console.log(matchedAvatarIndex);
+        // console.log(matchedAvatarIndex);
         // return matchedAvatarIndex ? matchedAvatarIndex.id : "";
         // return channelId;
         return matchedAvatarIndex;
@@ -98,7 +98,7 @@ export default function Homepage({ onHomepageClick }) {
             console.error(err);
         }
     };
-    getData();
+    // getData();
 
     // const handleClick = (videoId) => {
     //     console.log(videoId);
@@ -106,9 +106,9 @@ export default function Homepage({ onHomepageClick }) {
     //     onHomepageClick(data);
     // };
 
-    const handleClick = (id) => {
+    const handleClick = (video) => {
         // const data = "video";
-        const data = { page: "video", videoId: id };
+        const data = { page: "video", videoData: video };
         onHomepageClick(data);
     };
     // console.log(getData());
@@ -123,21 +123,25 @@ export default function Homepage({ onHomepageClick }) {
     // }, []);
 
     return (
-        <div className="home-yt-grid">
+        <div className={isSidebarFull ? "home-yt-grid wide" : "home-yt-grid"}>
             {apiData.map((video, index) => (
                 <article
                     className="home-article"
                     key={index}
-                    onClick={() => handleClick(video.id)}
+                    onClick={() => handleClick(video)}
                     // onClick={handleClick}
                 >
                     {/* {console.log(video.snippet.channelId)} */}
-                    {console.log(
+                    {/* {console.log(
                         getAvatarForChannelId(video.snippet.channelId)
-                    )}
+                    )} */}
                     <div className="home-video-thumbnail">
                         <img
-                            className="home-thumbnail"
+                            className={
+                                isSidebarFull
+                                    ? "home-thumbnail short"
+                                    : "home-thumbnail"
+                            }
                             // src={`${getData()}`}
                             src={video.snippet.thumbnails.high.url}
                             alt="thumbnail"
