@@ -1,12 +1,12 @@
 .search-yt-grid {
     /* border: solid red; */
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
     position: absolute;
     top: 70px;
-    left: 240px;
+    left: 242px;
     right: 0;
-    bottom: 0;
-    padding: 0 20px;
+    /* bottom: 0; */
+    padding: 0 100px;
 }
 
 .search-article {
@@ -21,6 +21,7 @@
     width: 350px;
     /* border: solid red; */
     border-radius: 15px;
+    object-fit: cover;
 }
 
 .search-video-thumbnail {
@@ -33,14 +34,16 @@
     position: absolute;
     right: 5px;
     bottom: 5px;
-    padding: 3px;
+    padding: 3px 4px;
     border-radius: 3px;
     font-size: small;
     width: min-content;
+    font-family: "Roboto", "Arial", sans-serif;
+    font-weight: 700;
 }
 
 .search-channel-avatar {
-    border: solid green;
+    /* border: solid green; */
     height: 30px;
     width: 30px;
     border-radius: 35px;
@@ -56,10 +59,16 @@
 
 .search-video-info > * {
     margin: 0;
+    padding-bottom: 8px;
 }
 
 .search-video-info > p {
-    color: gray;
+    color: #606060;
+}
+
+.search-video-info > div > a {
+    text-decoration: none;
+    color: #606060;
 }
 
 .search-video-desc {
