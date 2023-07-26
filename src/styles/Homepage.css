@@ -74,7 +74,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
 }
 
 .home-video-thumbnail {
@@ -87,8 +87,10 @@
     position: absolute;
     right: 5px;
     bottom: 5px;
-    padding: 3px;
+    padding: 3px 4px;
     border-radius: 3px;
     font-size: small;
     width: min-content;
+    font-weight: 700;
+    font-family: "Roboto", "Arial", sans-serif;
 }
