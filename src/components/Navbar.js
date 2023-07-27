@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import "../styles/Navbar.css";
 import yt from "../assets/yt-icon.png";
 import Sidebar from "./Sidebar";
+import MiniSidebar from "./MiniSidebar";
 
-export default function Navbar({ onIconClick }) {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+export default function Navbar({ onIconClick, onSearchClick, onMenuClick }) {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const handleMenuClick = () => {
         setIsSidebarOpen((prevState) => !prevState);
+        onMenuClick(isSidebarOpen);
     };
 
     const handleIconClick = () => {
@@ -15,8 +17,13 @@ export default function Navbar({ onIconClick }) {
         onIconClick(data);
     };
 
+    const handleSearchClick = () => {
+        const data = "search";
+        onIconClick(data);
+    };
+
     return (
-        <div>
+        <>
             <header>
                 <div>
                     <span
@@ -26,12 +33,15 @@ export default function Navbar({ onIconClick }) {
                         menu
                     </span>
                     <img
+                        className="yt-logo"
                         src={yt}
                         height={20}
                         alt="icon"
                         onClick={handleIconClick}
                     />
-                    <h1>Youtube</h1>
+                    <h1 onClick={handleIconClick} className="yt-logo">
+                        Youtube
+                    </h1>
                 </div>
                 <div className="search-div-wrapper">
                     <div className="search-div">
@@ -40,7 +50,10 @@ export default function Navbar({ onIconClick }) {
                         </span>
                         <input type="text" placeholder="Search" />
                     </div>
-                    <button className="search-button">
+                    <button
+                        className="search-button"
+                        onClick={handleSearchClick}
+                    >
                         <span className="material-symbols-outlined ignore">
                             search
                         </span>
@@ -59,6 +72,7 @@ export default function Navbar({ onIconClick }) {
                 </div>
             </header>
             {isSidebarOpen && <Sidebar />}
-        </div>
+            {!isSidebarOpen && <MiniSidebar />}
+        </>
     );
 }
