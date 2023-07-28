@@ -3,7 +3,7 @@ import "../styles/SearchPage.css";
 import mockData from "../testData/mockData";
 import mockDataSearchChannels from "../testData/mockDataSearchChannels";
 import mockDataSearchVideosByVidId from "../testData/mockDataSearchVideosByVidId";
-// import API_KEY from "../testData/apikey";
+import API_KEY from "../testData/apikey";
 import {
     formatNumber,
     calculateTimeDifference,
@@ -11,45 +11,53 @@ import {
 } from "./HelperFunctions";
 
 // SEARCH PAGE
-export default function Homepage() {
+export default function SearchPage({ onSearchClick, theSearchTerm }) {
     // const [apiData, setApiData] = useState([]);
     const [apiData, setApiData] = useState(mockData.items);
 
     // Requires 3 different API requests (100 + 1 + 1 tokens)
-    const allChannels = mockDataSearchChannels;
-    const allVideos = mockDataSearchVideosByVidId;
+    const [allChannels, setAllChannels] = useState(mockDataSearchChannels);
+    const [allVideos, setAllVideos] = useState(mockDataSearchVideosByVidId);
 
     const channelIDs = apiData.map((video) => video.snippet.channelId);
-    const videoIDs = apiData.map((video) => video.id.videoId);
-    console.log(channelIDs);
-    console.log(videoIDs);
+    const videoIDs = apiData.map((video) => video.id);
+    // const videoIDs = apiData.map((video) => video.id.videoId);
+    // console.log(channelIDs);
+    // console.log(videoIDs);
 
     const commaSeparatedString = channelIDs.join(",");
     const commaSeparatedVideos = videoIDs.join(",");
-    console.log(commaSeparatedString);
-    console.log(commaSeparatedVideos);
+    // console.log(commaSeparatedString);
+    // console.log(commaSeparatedVideos);
 
     const allChannelsIDs = allChannels.items.map((video) => video.id);
     const allVideoIDs = allVideos.items.map((video) => video.id);
-    console.log(allChannelsIDs);
-    console.log(allVideoIDs);
+    // console.log(allChannelsIDs);
+    // console.log(allVideoIDs);
 
     const getAvatarForChannelId = (channelId) => {
-        console.log(channelId);
+        // console.log(channelId);
         const matchedAvatarIndex = allChannelsIDs.findIndex(
             (avatar) => avatar === channelId
         );
-        console.log(matchedAvatarIndex);
+        // console.log(matchedAvatarIndex);
         return matchedAvatarIndex;
     };
 
     const getInfoForVideoId = (videoId) => {
-        console.log(videoId);
+        // console.log(videoId);
         const matchedVideoIndex = allVideoIDs.findIndex(
             (info) => info === videoId
         );
-        console.log(matchedVideoIndex);
+        // console.log(allVideoIDs);
+        // console.log(matchedVideoIndex);
         return matchedVideoIndex;
+    };
+
+    const handleClick = (video) => {
+        // const data = "video";
+        const data = { page: "video", videoData: video };
+        onSearchClick(data);
     };
 
     const getData = async () => {
@@ -70,7 +78,7 @@ export default function Homepage() {
             // const videoDescription = thisVideo.snippet.description;
             // const videoReleaseDate = thisVideo.snippet.publishTime;
             // const videoThumbnailURL = thisVideo.snippet.thumbnails.high.url;
-            console.log(searchData);
+            // console.log(searchData);
             // console.log(API_KEY);
             // console.log(youTubeId);
             // console.log(channelName);
@@ -78,9 +86,9 @@ export default function Homepage() {
             // console.log(videoDescription);
             // console.log(videoReleaseDate);
             // console.log(videoThumbnailURL);
-            console.log(searchData.items);
-            console.log(searchData.items[0]);
-            console.log(searchData.items[0].snippet.thumbnails.high.url);
+            // console.log(searchData.items);
+            // console.log(searchData.items[0]);
+            // console.log(searchData.items[0].snippet.thumbnails.high.url);
 
             // const thumbnailImage =
             //     searchData.items[0].snippet.thumbnails.high.url;
@@ -91,34 +99,81 @@ export default function Homepage() {
             console.error(err);
         }
     };
-    getData();
+    // getData();
     // console.log(getData());
 
+    // useEffect(() => {
+    //     // Make the API call and set the data state
+    //     // Replace 'apiEndpoint' with your actual API endpoint
+    //     // fetch("apiEndpoint")
+    //     //     .then((response) => response.json())
+    //     //     .then((result) => setData(result))
+    //     //     .catch((error) => console.error(error));
+    // }, []);
+
     useEffect(() => {
-        // Make the API call and set the data state
-        // Replace 'apiEndpoint' with your actual API endpoint
-        // fetch("apiEndpoint")
-        //     .then((response) => response.json())
-        //     .then((result) => setData(result))
-        //     .catch((error) => console.error(error));
-    }, []);
+        const fetchData = async () => {
+            try {
+                // Fetch data from the first API
+                const firstAPIResponse = await fetch(
+                    `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${theSearchTerm}&type=video&part=snippet&maxResults=50`
+                );
+                const firstAPIData = await firstAPIResponse.json();
+                // Process the data and join specific fields into a string
+                const processedDataString = firstAPIData.items
+                    .map((video) => video.snippet.channelId)
+                    .join(",");
+                // Use the processed string in the second API call
+                const secondAPIResponse = await fetch(
+                    `https://www.googleapis.com/youtube/v3/channels?key=${API_KEY}&part=snippet,contentDetails,statistics,brandingSettings&id=${processedDataString}`
+                );
+                const secondAPIData = await secondAPIResponse.json();
+
+                const processedDataStringTwo = firstAPIData.items
+                    .map((video) => video.id.videoId)
+                    .join(",");
+
+                // console.log(firstAPIData);
+                // console.log(processedDataString);
+                // console.log(processedDataStringTwo);
+
+                const thirdAPIResponse = await fetch(
+                    `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&part=snippet,contentDetails,statistics&id=${processedDataStringTwo}`
+                );
+                const thirdAPIData = await thirdAPIResponse.json();
+                // Set the state with the received data
+                // setApiData(firstAPIData.items);
+                setApiData(thirdAPIData.items);
+                setAllChannels(secondAPIData);
+                setAllVideos(thirdAPIData);
+                // console.log(thirdAPIData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, [theSearchTerm]);
 
     return (
         <div className="search-yt-grid">
+            {/* <h1>Hello, the search term currently is: {theSearchTerm}</h1> */}
             {apiData.map((video, index) => (
                 <article className="search-article" key={index}>
-                    <div className="search-video-thumbnail">
+                    <div
+                        className="search-video-thumbnail"
+                        onClick={() => handleClick(video)}
+                    >
                         <img
                             className="search-thumbnail"
                             src={video.snippet.thumbnails.high.url}
                             alt="thumbnail"
                         />
                         <div className="search-duration">
-                            {formatDuration(
+                            {/* {formatDuration(
                                 allVideos.items[
                                     getInfoForVideoId(videoIDs[index])
                                 ]?.contentDetails.duration
-                            )}
+                            )} */}
                         </div>
                     </div>
                     <div className="search-video-info">

@@ -3,7 +3,7 @@ import "../styles/Homepage.css";
 import mockData from "../testData/mockDataTest";
 import mockDataAllChannelsOnDisplay from "../testData/mockDataAllChannelsOnDisplay";
 // require(`dotenv`).config();
-// import API_KEY from "../testData/apikey";
+import API_KEY from "../testData/apikey";
 import {
     formatNumber,
     calculateTimeDifference,
@@ -14,7 +14,9 @@ export default function Homepage({ onHomepageClick, isSidebarFull }) {
     // const [apiData, setApiData] = useState({});
     const [apiData, setApiData] = useState(mockData.items);
 
-    const allChannels = mockDataAllChannelsOnDisplay;
+    const [allChannels, setAllChannels] = useState(
+        mockDataAllChannelsOnDisplay
+    );
 
     // API 1 - popular vids by region
     // get channel IDs
@@ -32,7 +34,8 @@ export default function Homepage({ onHomepageClick, isSidebarFull }) {
     // console.log(channelIDs);
     // console.log(typeof channelIDs);
 
-    const commaSeparatedString = channelIDs.join(",");
+    //USE THIS FOR API 2
+    // const commaSeparatedString = channelIDs.join(",");
 
     // console.log(commaSeparatedString);
     // console.log(
@@ -41,14 +44,14 @@ export default function Homepage({ onHomepageClick, isSidebarFull }) {
     const allChannelsIDs = allChannels.items.map((video) => video.id);
     // console.log(allChannelsIDs);
 
-    const [initialArray] = useState(channelIDs);
-    const [secondArray, setSecondArray] = useState(allChannelsIDs);
+    // const [initialArray] = useState(channelIDs);
+    // const [secondArray, setSecondArray] = useState(allChannelsIDs);
     // console.log(initialArray);
     // console.log(secondArray);
 
     const getAvatarForChannelId = (channelId) => {
         // console.log(channelId);
-        const matchedAvatarIndex = secondArray.findIndex(
+        const matchedAvatarIndex = allChannelsIDs.findIndex(
             (avatar) => avatar === channelId
         );
         // console.log(matchedAvatarIndex);
@@ -57,55 +60,6 @@ export default function Homepage({ onHomepageClick, isSidebarFull }) {
         return matchedAvatarIndex;
     };
 
-    const getData = async () => {
-        try {
-            // REPLACE HAZARD with search term
-            // const response = await fetch(
-            //     `https://www.googleapis.com/youtube/v3/search?key=API_KEY&q=hazard&type=video&part=snippet`,
-            // `https://www.googleapis.com/youtube/v3/search?key=API_KEY&q=hazard&type=video&part=snippet&maxResults=15`,
-            //     { mode: "cors" }
-            // );
-
-            // const searchData = await response.json();
-            const searchData = mockData;
-            // const allVideos = searchData.items;
-            // const thisVideo = searchData.items[0];
-            // const youTubeId = thisVideo.id.videoId;
-            // const channelName = thisVideo.snippet.channelTitle;
-            // const videoTitle = thisVideo.snippet.title;
-            // const videoDescription = thisVideo.snippet.description;
-            // const videoReleaseDate = thisVideo.snippet.publishTime;
-            // const videoThumbnailURL = thisVideo.snippet.thumbnails.high.url;
-            console.log(searchData);
-            // console.log(API_KEY);
-            console.log(process.env);
-            // console.log(youTubeId);
-            // console.log(channelName);
-            // console.log(videoTitle);
-            // console.log(videoDescription);
-            // console.log(videoReleaseDate);
-            // console.log(videoThumbnailURL);
-            console.log(searchData.items);
-            console.log(searchData.items[0]);
-            console.log(searchData.items[0].snippet.thumbnails.high.url);
-
-            // const thumbnailImage =
-            //     searchData.items[0].snippet.thumbnails.high.url;
-
-            // return thumbnailImage;
-            // return searchData;
-        } catch (err) {
-            console.error(err);
-        }
-    };
-    // getData();
-
-    // const handleClick = (videoId) => {
-    //     console.log(videoId);
-    //     const data = videoId;
-    //     onHomepageClick(data);
-    // };
-
     const handleClick = (video) => {
         // const data = "video";
         const data = { page: "video", videoData: video };
@@ -113,14 +67,32 @@ export default function Homepage({ onHomepageClick, isSidebarFull }) {
     };
     // console.log(getData());
 
-    // useEffect(() => {
-    // Make the API call and set the data state
-    // Replace 'apiEndpoint' with your actual API endpoint
-    // fetch("apiEndpoint")
-    //     .then((response) => response.json())
-    //     .then((result) => setData(result))
-    //     .catch((error) => console.error(error));
-    // }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch data from the first API
+                const firstAPIResponse = await fetch(
+                    `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&part=snippet,contentDetails,statistics,player&chart=mostPopular&regionCode=GB&maxResults=48`
+                );
+                const firstAPIData = await firstAPIResponse.json();
+                // Process the data and join specific fields into a string
+                const processedDataString = firstAPIData.items
+                    .map((video) => video.snippet.channelId)
+                    .join(",");
+                // Use the processed string in the second API call
+                const secondAPIResponse = await fetch(
+                    `https://www.googleapis.com/youtube/v3/channels?key=${API_KEY}&part=snippet,contentDetails,statistics,brandingSettings&id=${processedDataString}`
+                );
+                const secondAPIData = await secondAPIResponse.json();
+                // Set the state with the received data
+                setApiData(firstAPIData.items);
+                setAllChannels(secondAPIData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
 
     return (
         <div className={isSidebarFull ? "home-yt-grid wide" : "home-yt-grid"}>
@@ -166,6 +138,12 @@ export default function Homepage({ onHomepageClick, isSidebarFull }) {
                         <div className="home-video-info">
                             <h2>{video.snippet.title}</h2>
                             <p>{video.snippet.channelTitle}</p>
+                            {/* {console.log(
+                                allChannels.items[
+                                    getAvatarForChannelId(channelIDs[index])
+                                ]
+                                // ?.snippet.thumbnails.default.url
+                            )} */}
                             {/* {channelIDs[index]} -- */}
                             {/* {allChannels.items[index].etag} */}
                             {
