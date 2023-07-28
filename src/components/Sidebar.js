@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/Sidebar.css";
-import yt from "../assets/yt-icon.png";
+// import yt from "../assets/yt-icon.png";
 
 export default function Sidebar() {
     document.addEventListener("mousemove", function (e) {
@@ -18,7 +18,7 @@ export default function Sidebar() {
 
     return (
         <div className="sidebar">
-            <div className="yt-menu">
+            {/* <div className="yt-menu">
                 <span
                     className="material-symbols-outlined menu"
                     // onClick={handleClick}
@@ -27,7 +27,7 @@ export default function Sidebar() {
                 </span>
                 <img src={yt} height={20} alt="icon" />
                 <h1>Youtube</h1>
-            </div>
+            </div> */}
             <section>
                 <div className="sidebar-pair">
                     <span className="material-symbols-outlined">home</span>
