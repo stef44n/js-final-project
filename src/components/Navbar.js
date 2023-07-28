@@ -6,6 +6,7 @@ import MiniSidebar from "./MiniSidebar";
 
 export default function Navbar({ onIconClick, onSearchClick, onMenuClick }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleMenuClick = () => {
         setIsSidebarOpen((prevState) => !prevState);
@@ -18,8 +19,15 @@ export default function Navbar({ onIconClick, onSearchClick, onMenuClick }) {
     };
 
     const handleSearchClick = () => {
-        const data = "search";
-        onIconClick(data);
+        // const data = "search";
+        const data = { page: "search", searchFor: searchTerm };
+        onSearchClick(data);
+        console.log(data);
+    };
+
+    const searchTermChange = (e) => {
+        setSearchTerm(e.target.value);
+        console.log(e.target.value);
     };
 
     return (
@@ -48,7 +56,12 @@ export default function Navbar({ onIconClick, onSearchClick, onMenuClick }) {
                         <span className="material-symbols-outlined">
                             search
                         </span>
-                        <input type="text" placeholder="Search" />
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={searchTermChange}
+                        />
                     </div>
                     <button
                         className="search-button"
